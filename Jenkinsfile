@@ -3,6 +3,24 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                // Install and use Node.js v18.20.3 via nvm
+                sh '''
+                    # Install nvm if not already installed
+                    if [ ! -s "$NVM_DIR/nvm.sh" ]; then
+                        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+                        . ~/.nvm/nvm.sh
+                    fi
+
+                    # Load nvm and use the correct Node.js version
+                    . ~/.nvm/nvm.sh
+                    nvm install 18.20.3
+                    nvm use 18.20.3
+
+                    # Verify the node version
+                    node --version
+                '''
+
+                // Run the build commands
                 sh 'ls'
                 sh 'npm install'
                 sh 'echo N | ng analytics off'
